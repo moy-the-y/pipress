@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Image Switch</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      img {
+        cursor: pointer;
+        max-width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <img id="image" src="" onclick="nextImage()" />
+
+    <script>
+      const imgSources = ["/1.png", "/2.png"];
+      const imgs = imgSources.map((src) => {
+        const img = new Image();
+        img.src = src;
+        return img;
+      });
+
+      const initialImgIndex = 0;
+
+      let currentImgIndex = initialImgIndex;
+
+      document.getElementById("image").src = imgs[currentImgIndex].src;
+
+      function nextImage() {
+        currentImgIndex = (currentImgIndex + 1) % imgs.length;
+        document.getElementById("image").src = imgs[currentImgIndex].src;
+      }
+    </script>
+  </body>
+</html>
