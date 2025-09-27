@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>oops</title>
+    <title>pi press</title>
     <style>
       body {
         display: flex;
@@ -19,9 +19,13 @@
     </style>
   </head>
   <body>
-    <img id="image" src="" onclick="nextImage()" />
+    <img id="image" src="" onclick="toggleAction()" />
+    <div id="count-display">fuck count:<span id="count-variable">0</span></div>
 
     <script>
+      const docImage = document.getElementById("image");
+      const docCountNum = document.getElementById("count-variable");
+
       const imgSources = ["1.png", "2.png"];
       const imgs = imgSources.map((src) => {
         const img = new Image();
@@ -29,19 +33,21 @@
         return img;
       });
 
-      const initialImgIndex = 0;
+      let currentImgIndex = 0;
+      let toggleCount = 0;
+      let fuckCount = 0;
 
-      let currentImgIndex = initialImgIndex;
+      docImage.src = imgs[currentImgIndex].src;
+      docCountNum.textContent = fuckCount;
 
-      document.getElementById("image").src = imgs[currentImgIndex].src;
+      function toggleAction() {
+        toggleCount += 1;
+        fuckCount = Math.floor(toggleCount / 2);
+        docCountNum.textContent = fuckCount;
 
-      function nextImage() {
         currentImgIndex = (currentImgIndex + 1) % imgs.length;
-        document.getElementById("image").src = imgs[currentImgIndex].src;
+        docImage.src = imgs[currentImgIndex].src;
       }
     </script>
   </body>
 </html>
-
-
-
