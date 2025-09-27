@@ -11,20 +11,66 @@
         align-items: center;
         height: 100vh;
         margin: 0;
+        font-family: fantasy, monospace, Courier, "Courier New",
+          "Times New Roman", Times, serif;
       }
       img {
         cursor: pointer;
-        max-width: 300px;
+        max-width: 40vw;
+      }
+
+      #wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      #btn {
+        padding: 10px 20px;
+        background-color: pink;
+        color: chocolate;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+        font-family: fantasy, Arial, sans-serif;
+      }
+
+      #btn:hover {
+        background-color: rgb(57, 240, 81);
+      }
+
+      #count-info {
+        padding: 10px 20px;
+        background-color: pink;
+        border: 5px;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 20px;
+      }
+
+      #upgrade-info {
+        text-align: center;
+        font-size: 20px;
       }
     </style>
   </head>
   <body>
-    <img id="image" src="" onclick="toggleAction()" />
-    <div id="count-display">fuck count:<span id="count-variable">0</span></div>
+    <div id="wrapper">
+      <div id="count-info">Fuck Count: <span id="count-variable">0</span></div>
+      <img id="image" src="" onclick="toggleImg()" />
+      <button id="btn" onclick="toggleBtn()">[Buy Upgrade]</button>
+      <div id="upgrade-info">
+        Level:<span id="level-variable">1</span> Price:<span id="price-variable"
+      </div>
+    </div>
 
     <script>
       const docImage = document.getElementById("image");
       const docCountNum = document.getElementById("count-variable");
+      const docPrice = document.getElementById("price-variable");
+      const docLevel = document.getElementById("level-variable");
 
       const imgSources = ["1.png", "2.png"];
       const imgs = imgSources.map((src) => {
@@ -36,17 +82,46 @@
       let currentImgIndex = 0;
       let toggleCount = 0;
       let fuckCount = 0;
+      //
+      let currentPrice = 1;
+      const priceMultiplier = 2;
+      let currentLevel = 0;
+      const fuckCountIncrement = 1;
 
       docImage.src = imgs[currentImgIndex].src;
       docCountNum.textContent = fuckCount;
+      docPrice.textContent = currentPrice;
+      docLevel.textContent = currentLevel;
 
-      function toggleAction() {
-        toggleCount += 1;
-        fuckCount = Math.floor(toggleCount / 2);
+      function toggleBtn() {
+        if (fuckCount < currentPrice) {
+          return;
+        }
+
+        fuckCount -= currentPrice;
+        currentLevel += 1;
+        currentPrice = currentPrice * priceMultiplier;
+
+        refreshPageVariables();
+      }
+
+      function refreshPageVariables() {
         docCountNum.textContent = fuckCount;
+        docPrice.textContent = currentPrice;
+        docLevel.textContent = currentLevel;
+      }
+
+      function toggleImg() {
+        toggleCount += 1;
+
+        if (toggleCount % 2 == 0) {
+          fuckCount += 1 + fuckCountIncrement * currentLevel;
+        }
 
         currentImgIndex = (currentImgIndex + 1) % imgs.length;
         docImage.src = imgs[currentImgIndex].src;
+
+        refreshPageVariables();
       }
     </script>
   </body>
